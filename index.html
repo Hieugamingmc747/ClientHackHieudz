@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Client HieuDz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e1e2f, #2a2a4a);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow 5s ease infinite;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow 5s ease infinite;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #00ddeb;
+            text-shadow: 0 0 10px rgba(0, 221, 235, 0.5);
+        }
+
+        .client-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .client-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .client-card:nth-child(1) { animation-delay: 0.1s; }
+        .client-card:nth-child(2) { animation-delay: 0.2s; }
+        .client-card:nth-child(3) { animation-delay: 0.3s; }
+        .client-card:nth-child(4) { animation-delay: 0.4s; }
+        .client-card:nth-child(5) { animation-delay: 0.5s; }
+        .client-card:nth-child(6) { animation-delay: 0.6s; }
+        .client-card:nth-child(7) { animation-delay: 0.7s; }
+        .client-card:nth-child(8) { animation-delay: 0.8s; }
+        .client-card:nth-child(9) { animation-delay: 0.9s; }
+
+        .client-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 221, 235, 0.2);
+        }
+
+        .client-card h3 {
+            font-size: 1.5rem;
+            color: #ff007a;
+            margin-bottom: 15px;
+        }
+
+        .client-card a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #00ddeb;
+            color: #1e1e2f;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .client-card a:hover {
+            background: #ff007a;
+            color: #ffffff;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #2a2a4a, #1e1e2f);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 221, 235, 0.5);
+            animation: scaleIn 0.5s ease;
+        }
+
+        .modal.closing .modal-content {
+            animation: scaleOut 0.3s ease forwards;
+        }
+
+        .modal.closing {
+            animation: fadeOut 0.3s ease forwards;
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            background: -webkit-linear-gradient(#00ddeb, #ff007a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            color: #b0b0d0;
+            margin-bottom: 15px;
+        }
+
+        .modal-content a {
+            color: #00ddeb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .modal-content a:hover {
+            color: #ff007a;
+        }
+
+        .modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .close-btn {
+            background: #ff007a;
+            color: #ffffff;
+        }
+
+        .hide-btn {
+            background: #00ddeb;
+            color: #1e1e2f;
+        }
+
+        .modal-buttons button:hover {
+            transform: scale(1.1);
+            background: #ffffff;
+            color: #1e1e2f;
+        }
+
+        /* Footer Styles */
+        .footer {
+            margin-top: 50px;
+            font-size: 1rem;
+        }
+
+        .footer p {
+            background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow 5s ease infinite;
+        }
+
+        .discord-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .discord-btn {
+            padding: 12px 25px;
+            background: #7289da;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .discord-btn:hover {
+            transform: scale(1.1);
+            background: #ff007a;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes scaleOut {
+            from { transform: scale(1); opacity: 1; }
+            to { transform: scale(0.5); opacity: 0; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2rem; }
+            .section h2 { font-size: 1.5rem; }
+            .client-card h3 { font-size: 1.2rem; }
+            .modal-content { padding: 20px; max-width: 90%; }
+            .modal-content h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal" id="welcomeModal">
+        <div class="modal-content">
+            <h2>Chào Mừng Đến Với Web Tải Client Roblox!</h2>
+            <p>Trang web chuyên nghiệp cung cấp các client Roblox hack trên điện thoại, được thiết kế bởi <strong>HieuDz</strong>.</p>
+            <p>Tham gia cộng đồng của chúng tôi:</p>
+            <p><a href="https://discord.gg/3yRgPWxFPN" target="_blank">Discord Chính</a> | <a href="https://discord.gg/qUgx8PnJu9" target="_blank">Discord Phụ</a></p>
+            <p>Ngoài các client mobile dưới đây, chúng tôi còn cung cấp <strong>bypasser</strong> và <strong>executor cho PC</strong>. Tham gia cả 2 server để cập nhật thông tin mới nhất và không bỏ lỡ bất kỳ bản cập nhật nào!</p>
+            <div class="modal-buttons">
+                <button class="close-btn" onclick="closeModal()">Đóng</button>
+                <button class="hide-btn" onclick="hideModalForTwoHours()">Ẩn 2 giờ</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Danh Sách Tải Client Roblox</h1>
+            <p>Thiết kế bởi HieuDz - Nếu có lỗi gì thì hãy liên hệ chúng tôi</p>
+        </div>
+
+        <div class="section">
+            <h2>Client Roblox Quốc Tế (Tự động cập nhật)</h2>
+            <div class="client-list">
+                <div class="client-card">
+                    <h3>Delta</h3>
+                    <a href="https://cdngloopup.cc/delta_android/" target="_blank">Tải xuống</a>
+                </div>
+                <div class="client-card">
+                    <h3>Krln</h3>
+                    <a href="https://cdnwrd2.com/r/krnl/krnl.apk" target="_blank">Tải xuống</a>
+                </div>
+                <div class="client-card">
+                    <h3>Fluxus</h3>
+                    <a href="https://fluxteam.cc/android" target="_blank">Tải xuống</a>
+                </div>
+                <div class="client-card">
+                    <h3>Cryptic</h3>
+                    <a href="https://crypticexecutor.com/ce.apk" target="_blank">Tải xuống</a>
+                </div>
+                <div class="client-card">
+                    <h3>Arceus X Neo</h3>
+                    <a href="https://arceusx.com/arceusx" target="_blank">Tải xuống</a>
+                </div>
+                <div class="client-card">
+                    <h3>Code X</h3>
+                    <a href="https://codexexecutor.net/android-download/" target="_blank">Tải xuống</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Client VNG (Tự động cập nhật)</h2>
+            <div class="client-list">
+                <div class="client-card">
+                    <h3>Cryptic VNG</h3>
+                    <a href="https://crypticexecutor.com/cevng.apk" target="_blank">Tải xuống</a>
+                </div>
+                <div class="client-card">
+                    <h3>Arceus X Neo VNG</h3>
+                    <a href="https://arceusx.com/arceusxvng" target="_blank">Tải xuống</a>
+                </div>
+                <div class="client-card">
+                    <h3>Code X VNG</h3>
+                    <a href="https://codexexecutor.net/vng-android-download/" target="_blank">Tải xuống</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Created By HieuDz - © 2025</p>
+            <div class="discord-buttons">
+                <a href="https://discord.gg/3yRgPWxFPN" target="_blank" class="discord-btn">Discord Chính</a>
+                <a href="https://discord.gg/qUgx8PnJu9" target="_blank" class="discord-btn">Discord Phụ</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closeModal() {
+            const modal = document.getElementById('welcomeModal');
+            modal.classList.add('closing');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.remove('closing');
+            }, 300);
+        }
+
+        function hideModalForTwoHours() {
+            const modal = document.getElementById('welcomeModal');
+            modal.classList.add('closing');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.remove('closing');
+                const now = new Date().getTime();
+                const twoHours = 2 * 60 * 60 * 1000;
+                localStorage.setItem('hideModalUntil', now + twoHours);
+            }, 300);
+        }
+
+        window.onload = function() {
+            const hideUntil = localStorage.getItem('hideModalUntil');
+            const now = new Date().getTime();
+            if (hideUntil && now < hideUntil) {
+                document.getElementById('welcomeModal').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
